@@ -11,7 +11,6 @@
 	      };
    int yylval;
 %}
-
 %%
 "+"    { return ADD; }
 "-"    { return SUB; }
@@ -23,8 +22,7 @@
 [ \t]  { /* ignore whitespace */ }
 .      { printf("Mystery character %c\n", *yytext); }
 %%
-
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
   int tok;
   while(tok = yylex()) {
