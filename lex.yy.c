@@ -1791,7 +1791,7 @@ void yyfree (void * ptr )
 
 #line 24 "fb1-4.l"
 
-int main(int argc, char **argv)
+main(int argc, char **argv)
 {
   int tok;
   while(tok = yylex()) {
