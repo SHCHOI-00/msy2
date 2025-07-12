@@ -113,11 +113,13 @@ enum yysymbol_kind_t
   YYSYMBOL_DIV = 7,                        /* DIV  */
   YYSYMBOL_ABS = 8,                        /* ABS  */
   YYSYMBOL_EOL = 9,                        /* EOL  */
-  YYSYMBOL_YYACCEPT = 10,                  /* $accept  */
-  YYSYMBOL_calclist = 11,                  /* calclist  */
-  YYSYMBOL_exp = 12,                       /* exp  */
-  YYSYMBOL_factor = 13,                    /* factor  */
-  YYSYMBOL_term = 14                       /* term  */
+  YYSYMBOL_OP = 10,                        /* OP  */
+  YYSYMBOL_CP = 11,                        /* CP  */
+  YYSYMBOL_YYACCEPT = 12,                  /* $accept  */
+  YYSYMBOL_calclist = 13,                  /* calclist  */
+  YYSYMBOL_exp = 14,                       /* exp  */
+  YYSYMBOL_factor = 15,                    /* factor  */
+  YYSYMBOL_term = 16                       /* term  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -448,7 +450,7 @@ union yyalloc
 #define YYLAST   16
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  10
+#define YYNTOKENS  12
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  5
 /* YYNRULES -- Number of rules.  */
@@ -457,7 +459,7 @@ union yyalloc
 #define YYNSTATES  18
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   264
+#define YYMAXUTOK   266
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -497,7 +499,7 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9
+       5,     6,     7,     8,     9,    10,    11
 };
 
 #if YYDEBUG
@@ -522,8 +524,8 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "NUMBER", "ADD", "SUB",
-  "MUL", "DIV", "ABS", "EOL", "$accept", "calclist", "exp", "factor",
-  "term", YY_NULLPTR
+  "MUL", "DIV", "ABS", "EOL", "OP", "CP", "$accept", "calclist", "exp",
+  "factor", "term", YY_NULLPTR
 };
 
 static const char *
@@ -591,15 +593,15 @@ static const yytype_int8 yycheck[] =
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    11,     0,     3,     8,    12,    13,    14,    14,     4,
-       5,     9,     6,     7,    13,    13,    14,    14
+       0,    13,     0,     3,     8,    14,    15,    16,    16,     4,
+       5,     9,     6,     7,    15,    15,    16,    16
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    10,    11,    11,    12,    12,    12,    13,    13,    13,
-      14,    14
+       0,    12,    13,    13,    14,    14,    14,    15,    15,    15,
+      16,    16
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -1072,59 +1074,59 @@ yyreduce:
   case 3: /* calclist: calclist exp EOL  */
 #line 15 "fb1-5.y"
                          { printf("= %d\n", yyvsp[-1]); }
-#line 1076 "fb1-5.tab.c"
+#line 1078 "fb1-5.tab.c"
     break;
 
   case 4: /* exp: factor  */
 #line 19 "fb1-5.y"
                              { yyval = yyvsp[0]; }
-#line 1082 "fb1-5.tab.c"
+#line 1084 "fb1-5.tab.c"
     break;
 
   case 5: /* exp: exp ADD factor  */
 #line 20 "fb1-5.y"
                              { yyval = yyvsp[-2] + yyvsp[0]; }
-#line 1088 "fb1-5.tab.c"
+#line 1090 "fb1-5.tab.c"
     break;
 
   case 6: /* exp: exp SUB factor  */
 #line 21 "fb1-5.y"
                              { yyval = yyvsp[-2] - yyvsp[0]; }
-#line 1094 "fb1-5.tab.c"
+#line 1096 "fb1-5.tab.c"
     break;
 
   case 7: /* factor: term  */
 #line 25 "fb1-5.y"
                              { yyval = yyvsp[0]; }
-#line 1100 "fb1-5.tab.c"
+#line 1102 "fb1-5.tab.c"
     break;
 
   case 8: /* factor: factor MUL term  */
 #line 26 "fb1-5.y"
                              { yyval = yyvsp[-2] * yyvsp[0]; }
-#line 1106 "fb1-5.tab.c"
+#line 1108 "fb1-5.tab.c"
     break;
 
   case 9: /* factor: factor DIV term  */
 #line 27 "fb1-5.y"
                              { yyval = yyvsp[-2] / yyvsp[0]; }
-#line 1112 "fb1-5.tab.c"
+#line 1114 "fb1-5.tab.c"
     break;
 
   case 10: /* term: NUMBER  */
 #line 31 "fb1-5.y"
                              { yyval = yyvsp[0]; }
-#line 1118 "fb1-5.tab.c"
+#line 1120 "fb1-5.tab.c"
     break;
 
   case 11: /* term: ABS term  */
 #line 32 "fb1-5.y"
                              { yyval = yyvsp[0] >= 0 ? yyvsp[0] : -yyvsp[0]; }
-#line 1124 "fb1-5.tab.c"
+#line 1126 "fb1-5.tab.c"
     break;
 
 
-#line 1128 "fb1-5.tab.c"
+#line 1130 "fb1-5.tab.c"
 
       default: break;
     }

@@ -6,7 +6,7 @@ int yylex(void);
 int yyerror(const char *s);
 %}
 
-%token NUMBER ADD SUB MUL DIV ABS EOL
+%token NUMBER ADD SUB MUL DIV ABS EOL OP CP
 
 %%
 
