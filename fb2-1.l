@@ -15,17 +15,16 @@ int lines = 0;
 .          { chars++; }
 %%
 
-main(argc, argv)
-int argc;
-char **argv;
-{
-  if(argc > 1) {
-    FILE *file = fopen(argv[1], "r");
-    if(!(yyin = fopen(argv[1], "r"))) {
-      perror(argv[1]);
-      return (1);
+int main(int argc, char **argv) {
+    if (argc > 1) {
+        FILE *file = fopen(argv[1], "r");
+        if (!file) {
+            perror(argv[1]);
+            return 1;
+        }
+        yyin = file;
     }
-  }
-  yylex();
-  printf("%8d%8d%8d\n", lines, words, chars);
+    yylex();
+    printf("%8d %8d %8d\n", lines, words, chars);
+    return 0;
 }
