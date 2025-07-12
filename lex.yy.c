@@ -439,17 +439,23 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "fb2-1.l"
-/* even more like Unix wc */
-#line 4 "fb2-1.l"
+#line 1 "fb2-2.l"
+/* fb2-2 read several files */
+#line 5 "fb2-2.l"
 #include <stdio.h>
 #include <string.h>
 
 int chars = 0;
 int words = 0;
 int lines = 0;
-#line 451 "lex.yy.c"
-#line 452 "lex.yy.c"
+
+int totchars = 0;
+int totwords = 0;
+int totlines = 0;
+
+extern FILE *yyin;
+#line 457 "lex.yy.c"
+#line 458 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -666,9 +672,9 @@ YY_DECL
 		}
 
 	{
-#line 12 "fb2-1.l"
+#line 19 "fb2-2.l"
 
-#line 671 "lex.yy.c"
+#line 677 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -727,26 +733,26 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 13 "fb2-1.l"
+#line 20 "fb2-2.l"
 { words++; chars += strlen(yytext); }
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 14 "fb2-1.l"
+#line 21 "fb2-2.l"
 { chars++; lines++; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 15 "fb2-1.l"
+#line 22 "fb2-2.l"
 { chars++; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 16 "fb2-1.l"
+#line 23 "fb2-2.l"
 ECHO;
 	YY_BREAK
-#line 749 "lex.yy.c"
+#line 755 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1751,20 +1757,40 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 16 "fb2-1.l"
+#line 23 "fb2-2.l"
 
 
-int main(int argc, char **argv) {
-    if (argc > 1) {
-        FILE *file = fopen(argv[1], "r");
-        if (!file) {
-            perror(argv[1]);
-            return 1;
-        }
-        yyin = file;
+int main(int argc, char **argv)
+{
+    int i;
+
+    if (argc < 2) {
+        yylex();
+        printf("%8d%8d%8d\n", lines, words, chars);
+        return 0;
     }
-    yylex();
-    printf("%8d %8d %8d\n", lines, words, chars);
+
+    for (i = 1; i < argc; i++) {
+        FILE *f = fopen(argv[i], "r");
+
+        if (!f) {
+            perror(argv[i]);
+            return (1);
+        }
+
+        yyrestart(f);
+        yylex();
+        fclose(f);
+        printf("%8d%8d%8d %s\n", lines, words, chars, argv[i]);
+        totchars += chars; chars = 0;
+        totwords += words; words = 0;
+        totlines += lines; lines = 0;
+    }
+
+    if (argc > 2) {
+        printf("%8d%8d%8d total\n", totlines, totwords, totchars);
+    }
+
     return 0;
 }
 
