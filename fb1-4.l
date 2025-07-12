@@ -1,6 +1,9 @@
 /* recognize tokens for the calculator and print them out */ 
 %{
-   enum yytokentype {      
+#include <stdio.h>
+#include <stdlib.h>   
+
+enum yytokentype {      
 	   NUMBER = 258,      
 	   ADD = 259,      
 	   SUB = 260,      
@@ -11,6 +14,7 @@
 	      };
    int yylval;
 %}
+
 %%
 "+"    { return ADD; }
 "-"    { return SUB; }
@@ -22,7 +26,8 @@
 [ \t]  { /* ignore whitespace */ }
 .      { printf("Mystery character %c\n", *yytext); }
 %%
-main(int argc, char **argv)
+
+int main(int argc, char **argv)
 {
   int tok;
   while(tok = yylex()) {
@@ -30,4 +35,5 @@ main(int argc, char **argv)
     if(tok == NUMBER) printf(" = %d\n", yylval);
     else printf("\n");
   }
+  return 0;
 }

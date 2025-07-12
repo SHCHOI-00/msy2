@@ -1,4 +1,8 @@
 /* recognize tokens for the calculator and print them out */
+%{
+#include <stdio.h>
+%}
+
 %%
 "+"    { printf("PLUS\n"); }
 "-"    { printf("MINUS\n"); }
@@ -10,3 +14,8 @@
 [ \t]  { }
 .      { printf("Mystery character %s\n", yytext); }
 %%
+
+int main() {
+    yylex();
+    return 0;
+}
